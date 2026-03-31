@@ -16,7 +16,7 @@ services:
       - key: ALLOWED_HOSTS
         value: "hrms-backend-5rf5.onrender.com"
       - key: CORS_ALLOWED_ORIGINS
-        value: "https://your-app.vercel.app"
+        value: "https://hrms-frontend-jet-two.vercel.app"
 
 databases:
   - name: hrms-lite-db
