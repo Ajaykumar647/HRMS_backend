@@ -33,11 +33,17 @@ class EmployeeSerializer(serializers.ModelSerializer):
         return value
 
     def validate(self, attrs):
-        # Check for duplicate on create
         instance = self.instance
-        if instance is None:
-            if Employee.objects.filter(employee_id=attrs.get('employee_id')).exists():
+        if 'employee_id' in attrs:
+            qs = Employee.objects.filter(employee_id=attrs['employee_id'])
+            if instance:
+                qs = qs.exclude(pk=instance.pk)
+            if qs.exists():
                 raise serializers.ValidationError({'employee_id': 'An employee with this Employee ID already exists.'})
-            if Employee.objects.filter(email=attrs.get('email')).exists():
+        if 'email' in attrs:
+            qs = Employee.objects.filter(email=attrs['email'])
+            if instance:
+                qs = qs.exclude(pk=instance.pk)
+            if qs.exists():
                 raise serializers.ValidationError({'email': 'An employee with this email already exists.'})
         return attrs
